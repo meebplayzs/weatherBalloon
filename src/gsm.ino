@@ -1,0 +1,36 @@
+void sendGSM(posData *gpsPacket, sensorData *sensorPacket) {
+  gsm.println(F("AT"));
+  delay(10);
+  gsm.println(F("AT+CFUN=1"));
+  delay(10);
+  gsm.println(F("AT+CMGF=1"));
+  delay(10);
+  gsm.println(F("AT+CMGS=\"+xxxxxxxxxxxx\""));
+  delay(10);
+  gsm.print(gpsPacket->time);
+  gsm.print(",");
+  gsm.print(gpsPacket->lat);
+  gsm.print(",");
+  gsm.print(gpsPacket->lon);
+  gsm.print(",");
+  gsm.print(gpsPacket->height);
+  gsm.print(",");
+  gsm.print(gpsPacket->hMSL);
+  gsm.print(",");
+  gsm.print(gpsPacket->hAcc);
+  gsm.print(",");
+  gsm.print(gpsPacket->vAcc);
+  gsm.print(",");
+  gsm.print(sensorPacket->temp);
+  gsm.print(",");
+  gsm.print(sensorPacket->alt);
+  gsm.print(",");
+  gsm.print(sensorPacket->batt);
+  gsm.print(",");
+  gsm.print(F("http://www.google.com/maps/place/"));
+  gsm.print((float) gpsPacket->lat/1e7, 3);
+  gsm.print(",");
+  gsm.print((float) gpsPacket->lon/1e7, 3);
+  gsm.write(26);
+  gsm.flush();
+}
